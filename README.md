@@ -1,40 +1,40 @@
 # TaskFlow
 
-A full-stack task management app built with the MERN stack. Users sign up, log in, and manage their own tasks (create, edit, move through statuses, search, filter, delete). Admins can see and manage every user's tasks.
+A full-stack task management application built with the MERN stack. Users can sign up, log in, and manage their own tasks by creating, editing, updating statuses, searching, filtering, and deleting tasks. Admins can view and manage tasks across all users.
 
 ## Key Features
 
-- JWT authentication (register, login, persistent session, protected routes)
-- Password hashing with bcrypt; role is never accepted from the client at signup
-- Role-based access control: `user` sees only their own tasks, `admin` sees all
-- Full CRUD REST API for tasks with ownership checks on every operation
-- Search by title, filter by status and priority, pagination support on the API
-- Dashboard stats (total / to do / in progress / done) via a MongoDB aggregation
-- Centralised error handling (validation, bad ids, duplicate emails)
+- JWT authentication with registration, login, persistent sessions, and protected routes
+- Password hashing with `bcryptjs`; user roles are not accepted from the client during signup
+- Role-based access control: regular users can access only their own tasks, while admins can access all tasks
+- REST API with full CRUD operations for tasks and ownership checks
+- Search by title, filter by status and priority, and API pagination
+- Dashboard statistics (total, to do, in progress, and done) calculated using a MongoDB aggregation
+- Centralized error handling for validation errors, invalid IDs, and duplicate email addresses
 - Responsive React UI with debounced search
 
 ## Technologies Used
 
-- **MongoDB** + Mongoose
-- **Express.js** on **Node.js** (ES modules)
-- **React 18** (Vite, React Router, Context API)
-- JSON Web Tokens, bcryptjs, cors, dotenv
+- **MongoDB** with Mongoose
+- **Express.js** and **Node.js** using ES modules
+- **React 18** with Vite, React Router, and Context API
+- JSON Web Tokens (`jsonwebtoken`), `bcryptjs`, `cors`, and `dotenv`
 
 ## Project Structure
 
-```
+```text
 taskflow/
 ├── server/
 │   └── src/
-│       ├── config/        # DB connection
-│       ├── models/        # User, Task schemas
-│       ├── controllers/   # auth + task logic
-│       ├── routes/        # route definitions
-│       ├── middleware/    # auth (protect, restrictTo), error handling
+│       ├── config/        # Database connection
+│       ├── models/        # User and Task schemas
+│       ├── controllers/   # Authentication and task logic
+│       ├── routes/        # API route definitions
+│       ├── middleware/    # Authentication, authorization, error handling
 │       └── index.js
 └── client/
     └── src/
-        ├── api.js         # fetch wrapper
+        ├── api.js         # API request wrapper
         ├── context/       # AuthContext
         ├── components/    # TaskForm, TaskCard, ProtectedRoute
         └── pages/         # AuthPage, Dashboard
@@ -42,70 +42,108 @@ taskflow/
 
 ## Setup and Installation
 
-Prerequisites: Node.js 18+, and MongoDB running locally (or a MongoDB Atlas URI).
+### Prerequisites
+
+- Node.js 18 or later
+- MongoDB running locally, or a MongoDB Atlas connection URI
+
+### Install dependencies
+
+From the project root, install the backend and frontend dependencies in separate steps.
+
+**Backend**
 
 ```bash
-# 1. Backend
 cd server
 npm install
-cp .env.example .env      # then edit JWT_SECRET (and MONGO_URI if needed)
+```
 
-# 2. Frontend
-cd ../client
+Create a `.env` file based on `.env.example` and configure the required environment variables, including `JWT_SECRET` and `MONGO_URI`.
+
+**Frontend**
+
+Open a second terminal from the project root, then run:
+
+```bash
+cd client
 npm install
 ```
 
 ## Running the Application
 
-Open two terminals:
+Run the backend and frontend in separate terminals from the project root.
+
+**Terminal 1 — Backend API** (default: `http://localhost:5000`)
 
 ```bash
-# Terminal 1 – API on http://localhost:5000
-cd server && npm run dev
-
-# Terminal 2 – React app on http://localhost:5173
-cd client && npm run dev
+cd server
+npm run dev
 ```
 
-Vite proxies `/api` to the backend, so no extra CORS setup is needed in development.
+**Terminal 2 — React frontend** (default: `http://localhost:5173`)
 
-To create an admin, register normally and then change the user's `role` to `admin` in MongoDB:
+```bash
+cd client
+npm run dev
+```
+
+In development, Vite proxies `/api` requests to the backend, so separate CORS configuration is not needed for this development setup.
+
+## Creating an Admin User
+
+Register an account through the application, then update that user's role in MongoDB. For example:
 
 ```js
-db.users.updateOne({ email: "you@example.com" }, { $set: { role: "admin" } })
+db.users.updateOne(
+  { email: "you@example.com" },
+  { $set: { role: "admin" } }
+)
 ```
+
+Replace `you@example.com` with the email address of the account you want to promote. Only do this directly in your own development database.
 
 ## API Overview
 
 | Method | Endpoint | Description |
 | --- | --- | --- |
-| POST | `/api/auth/register` | Create account, returns token |
-| POST | `/api/auth/login` | Log in, returns token |
-| GET | `/api/auth/me` | Current user |
-| GET | `/api/tasks` | List tasks (`?q=&status=&priority=&page=&limit=`) |
-| GET | `/api/tasks/stats` | Counts per status |
-| POST | `/api/tasks` | Create task |
-| GET / PUT / DELETE | `/api/tasks/:id` | Read / update / delete a task |
+| `POST` | `/api/auth/register` | Create an account and return a token |
+| `POST` | `/api/auth/login` | Log in and return a token |
+| `GET` | `/api/auth/me` | Get the currently authenticated user |
+| `GET` | `/api/tasks` | List tasks; supports `q`, `status`, `priority`, `page`, and `limit` query parameters |
+| `GET` | `/api/tasks/stats` | Get task counts by status |
+| `POST` | `/api/tasks` | Create a task |
+| `GET` | `/api/tasks/:id` | Get a task |
+| `PUT` | `/api/tasks/:id` | Update a task |
+| `DELETE` | `/api/tasks/:id` | Delete a task |
 
-All `/api/tasks` routes require `Authorization: Bearer <token>`.
+All `/api/tasks` routes require an `Authorization: Bearer <token>` header.
 
 ## Code0 Usage
 
-<!-- FILL THIS IN YOURSELF, honestly, after you have actually used Code0. -->
-I used the Code0 VS Code extension throughout development, including its terminal for Git operations (init, commits, push).
+Code0 is part of the development workflow for this assessment. The Code0 VS Code extension and its terminal should be used for development assistance and Git operations, including repository initialization, commits, and pushing code to GitHub.
+
+> **Complete this section accurately before submission:** Keep only statements that reflect how you actually used Code0. Do not claim that Code0 performed work it did not perform.
 
 ## AI Development Experience
 
-<!-- Write 1 short paragraph in your own words: how you prompted Code0, what you
-accepted, what you rejected or fixed, and how you verified the output. -->
+During development, document how you used Code0 to plan or implement features, understand errors, or improve the project. Explain which suggestions you accepted or changed, and how you verified the final behavior by running the application and testing relevant functionality.
 
-TODO
+> **Personalize this paragraph before submission:** Replace this guidance with a short, truthful first-person account of your actual Code0 workflow.
 
-### Tasks where Code0 helped
+### Tasks Where Code0 Helped
 
-<!-- List 3-5 REAL tasks. Examples of the kind of thing to cover, only if true for you:
-     component development, API creation, debugging, DB integration, refactoring, testing. -->
+List 3–5 specific tasks where you actually used Code0. Possible examples, only if true:
 
-1. TODO
-2. TODO
-3. TODO
+1. **React component development:** Describe a component or frontend behavior Code0 helped you implement or refine.
+2. **REST API development:** Describe an Express route or API behavior Code0 helped you create or review.
+3. **Database integration:** Describe how Code0 helped with MongoDB/Mongoose models or database operations.
+4. **Debugging and testing:** Describe an issue Code0 helped you investigate and how you tested the fix.
+5. **Refactoring or Git workflow:** Describe a real code improvement or Git operation performed with Code0.
+
+> Replace these example prompts with your own completed tasks. Remove any item that does not accurately describe your experience. StartupMeu specifically asks for 3–5 real examples.
+
+## Testing and Validation
+
+Before submission, run the application and verify the main user flows, including registration/login, task creation and updates, search/filter behavior, and role-based access. Also check the API responses and database persistence for the features you implemented.
+
+Update this section if your actual testing differs from the checks listed above.
