@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState, useCallback } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { api, getToken, setToken } from "../api.js";
 
 const AuthContext = createContext(null);
@@ -22,16 +22,18 @@ export function AuthProvider({ children }) {
     setUser(u);
   }, []);
 
-  const value = {
-    user,
-    loading,
-    login: (p) => authenticate(api.login, p),
-    register: (p) => authenticate(api.register, p),
-    logout: () => {
-      setToken(null);
-      setUser(null);
-    },
-  };
+  const login = useCallback((p) => authenticate(api.login, p), [authenticate]);
+  const register = useCallback((p) => authenticate(api.register, p), [authenticate]);
+  const logout = useCallback(() => {
+    setToken(null);
+    setUser(null);
+  }, []);
+
+  // Memoised so consumers (e.g. the dashboard's data loader) don't re-run needlessly.
+  const value = useMemo(
+    () => ({ user, loading, login, register, logout }),
+    [user, loading, login, register, logout]
+  );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
