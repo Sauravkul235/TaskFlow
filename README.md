@@ -58,7 +58,7 @@ cd server
 npm install
 ```
 
-Create a `.env` file based on `.env.example` and configure the required environment variables, including `JWT_SECRET` and `MONGO_URI`.
+Create or update the `server/.env` file with the environment variables required by your backend, including `JWT_SECRET` and `MONGO_URI`. Use the variable names expected by your server configuration. Keep `.env` private and do not commit it to GitHub because it may contain secrets.
 
 **Frontend**
 
@@ -120,19 +120,19 @@ All `/api/tasks` routes require an `Authorization: Bearer <token>` header.
 
 ## Code0 Usage
 
-Code0 is part of the development workflow for this assessment. The Code0 VS Code extension and its terminal should be used for development assistance and Git operations, including repository initialization, commits, and pushing code to GitHub.
 
-> **Complete this section accurately before submission:** Keep only statements that reflect how you actually used Code0. Do not claim that Code0 performed work it did not perform.
+
+> **Before submission:** Keep only statements that accurately reflect how you actually used Code0. Do not claim that Code0 performed work it did not perform.
 
 ## AI Development Experience
 
-During development, document how you used Code0 to plan or implement features, understand errors, or improve the project. Explain which suggestions you accepted or changed, and how you verified the final behavior by running the application and testing relevant functionality.
 
-> **Personalize this paragraph before submission:** Replace this guidance with a short, truthful first-person account of your actual Code0 workflow.
+
+> **Before submission:** Replace this guidance with a short, truthful first-person account of your actual Code0 workflow.
 
 ### Tasks Where Code0 Helped
 
-List 3–5 specific tasks where you actually used Code0. Possible examples, only if true:
+
 
 1. **React component development:** Describe a component or frontend behavior Code0 helped you implement or refine.
 2. **REST API development:** Describe an Express route or API behavior Code0 helped you create or review.
@@ -140,10 +140,7 @@ List 3–5 specific tasks where you actually used Code0. Possible examples, only
 4. **Debugging and testing:** Describe an issue Code0 helped you investigate and how you tested the fix.
 5. **Refactoring or Git workflow:** Describe a real code improvement or Git operation performed with Code0.
 
-> Replace these example prompts with your own completed tasks. Remove any item that does not accurately describe your experience. StartupMeu specifically asks for 3–5 real examples.
+
 
 ## Testing and Validation
 
-Before submission, run the application and verify the main user flows, including registration/login, task creation and updates, search/filter behavior, and role-based access. Also check the API responses and database persistence for the features you implemented.
-
-Update this section if your actual testing differs from the checks listed above.
