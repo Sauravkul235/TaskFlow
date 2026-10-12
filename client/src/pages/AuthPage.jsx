@@ -22,7 +22,6 @@ export default function AuthPage({ mode }) {
   if (user) return <Navigate to="/" replace />;
 
   const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-
   const onSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -61,63 +60,32 @@ export default function AuthPage({ mode }) {
 
       <main className="auth-panel">
         <div className="auth-theme"><ThemeToggle /></div>
-
         <form className="auth-form" onSubmit={onSubmit} noValidate={false}>
           <h2>{isLogin ? "Welcome back" : "Create your account"}</h2>
           <p className="muted">
             {isLogin ? "Sign in to continue to your board." : "It takes less than a minute."}
           </p>
-
           {!isLogin && (
             <label className="field">
               <span>Name</span>
-              <input
-                name="name"
-                value={form.name}
-                onChange={onChange}
-                autoComplete="name"
-                placeholder="Your name"
-                required
-              />
+              <input name="name" value={form.name} onChange={onChange} autoComplete="name" placeholder="Your name" required />
             </label>
           )}
 
           <label className="field">
             <span>Email</span>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={onChange}
-              autoComplete="email"
-              placeholder="you@example.com"
-              required
-            />
+            <input type="email" name="email" value={form.email} onChange={onChange} autoComplete="email" placeholder="you@example.com" required />
           </label>
 
           <label className="field">
             <span>Password</span>
             <div className="input-with-action">
-              <input
-                type={showPassword ? "text" : "password"}
-                name="password"
-                value={form.password}
-                onChange={onChange}
-                minLength={6}
-                autoComplete={isLogin ? "current-password" : "new-password"}
-                placeholder="At least 6 characters"
-                required
-              />
-              <button
-                type="button"
-                className="link-btn"
-                onClick={() => setShowPassword((s) => !s)}
-              >
+              <input type={showPassword ? "text" : "password"} name="password" value={form.password} onChange={onChange} minLength={6} autoComplete={isLogin ? "current-password" : "new-password"} placeholder="At least 6 characters" required/>
+              <button type="button" className="link-btn" onClick={() => setShowPassword((s) => !s)}>
                 {showPassword ? "Hide" : "Show"}
               </button>
             </div>
           </label>
-
           {error && <p className="form-error" role="alert">{error}</p>}
 
           <button className="btn btn-primary btn-block" disabled={busy}>

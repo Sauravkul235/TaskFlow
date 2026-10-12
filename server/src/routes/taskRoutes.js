@@ -12,8 +12,7 @@ import { protect } from "../middleware/auth.js";
 const router = Router();
 
 router.use(protect);
-
-router.get("/stats", getStats); // must be declared before "/:id"
+router.get("/stats", getStats); 
 router.route("/").get(listTasks).post(createTask);
 router.route("/:id").get(getTask).put(updateTask).delete(deleteTask);
 

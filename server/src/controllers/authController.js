@@ -14,7 +14,6 @@ export const register = asyncHandler(async (req, res) => {
   if (!name || !email || !password) {
     return res.status(400).json({ message: "Name, email and password are required" });
   }
-  // Role is never taken from the request body: everyone registers as "user".
   const user = await User.create({ name, email, password });
   res.status(201).json({ token: signToken(user._id), user: publicUser(user) });
 });

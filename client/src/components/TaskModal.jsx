@@ -2,15 +2,10 @@ import { useEffect, useState } from "react";
 import { CloseIcon } from "./Icons.jsx";
 
 const EMPTY = { title: "", description: "", priority: "medium", status: "todo", dueDate: "" };
-
 const toInputDate = (d) => (d ? new Date(d).toISOString().slice(0, 10) : "");
 
-// `task` is null when creating, or the task being edited.
-// `onSubmit` resolves true when saved (the parent then closes the modal).
 export default function TaskModal({ task, onSubmit, onClose }) {
-  const [form, setForm] = useState(
-    task ? { ...EMPTY, ...task, dueDate: toInputDate(task.dueDate) } : EMPTY
-  );
+  const [form, setForm] = useState( task ? { ...EMPTY, ...task, dueDate: toInputDate(task.dueDate) } : EMPTY );
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
@@ -20,7 +15,6 @@ export default function TaskModal({ task, onSubmit, onClose }) {
   }, [onClose]);
 
   const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
-
   const submit = async (e) => {
     e.preventDefault();
     setBusy(true);
@@ -39,14 +33,7 @@ export default function TaskModal({ task, onSubmit, onClose }) {
 
   return (
     <div className="overlay" onMouseDown={onClose}>
-      <form
-        className="modal"
-        role="dialog"
-        aria-modal="true"
-        aria-labelledby="task-modal-title"
-        onMouseDown={(e) => e.stopPropagation()}
-        onSubmit={submit}
-      >
+      <form className="modal" role="dialog" aria-modal="true" aria-labelledby="task-modal-title" onMouseDown={(e) => e.stopPropagation()} onSubmit={submit}>
         <div className="modal-head">
           <h2 id="task-modal-title">{task ? "Edit task" : "New task"}</h2>
           <button type="button" className="icon-btn" onClick={onClose} aria-label="Close">
@@ -56,27 +43,12 @@ export default function TaskModal({ task, onSubmit, onClose }) {
 
         <label className="field">
           <span>Title</span>
-          <input
-            name="title"
-            value={form.title}
-            onChange={onChange}
-            maxLength={120}
-            placeholder="What needs to be done?"
-            autoFocus
-            required
-          />
+          <input name="title" value={form.title} onChange={onChange} maxLength={120} placeholder="What needs to be done?" autoFocus required />
         </label>
 
         <label className="field">
           <span>Description</span>
-          <textarea
-            name="description"
-            value={form.description}
-            onChange={onChange}
-            rows={3}
-            maxLength={1000}
-            placeholder="Add a few details (optional)"
-          />
+          <textarea name="description" value={form.description} onChange={onChange} rows={3} maxLength={1000} placeholder="Add a few details (optional)" />
         </label>
 
         <div className="grid-3">

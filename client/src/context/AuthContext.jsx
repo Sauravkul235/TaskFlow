@@ -29,7 +29,6 @@ export function AuthProvider({ children }) {
     setUser(null);
   }, []);
 
-  // Memoised so consumers (e.g. the dashboard's data loader) don't re-run needlessly.
   const value = useMemo(
     () => ({ user, loading, login, register, logout }),
     [user, loading, login, register, logout]

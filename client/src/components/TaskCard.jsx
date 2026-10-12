@@ -24,7 +24,6 @@ export default function TaskCard({ task, showOwner, onMove, onEdit, onDelete }) 
         <h3>{task.title}</h3>
         <span className={`badge ${task.priority}`}>{task.priority}</span>
       </header>
-
       {task.description && <p className="task-desc">{task.description}</p>}
 
       <div className="task-meta">
@@ -40,44 +39,18 @@ export default function TaskCard({ task, showOwner, onMove, onEdit, onDelete }) 
 
       <footer className="task-actions">
         <div className="move-group">
-          <button
-            type="button"
-            className="icon-btn sm"
-            onClick={() => onMove(task, prev)}
-            disabled={!prev}
-            aria-label="Move to previous column"
-            title="Move back"
-          >
+          <button type="button" className="icon-btn sm" onClick={() => onMove(task, prev)} disabled={!prev} aria-label="Move to previous column" title="Move back">
             <LeftIcon width={16} height={16} />
           </button>
-          <button
-            type="button"
-            className="icon-btn sm"
-            onClick={() => onMove(task, next)}
-            disabled={!next}
-            aria-label="Move to next column"
-            title="Move forward"
-          >
+          <button type="button" className="icon-btn sm" onClick={() => onMove(task, next)} disabled={!next} aria-label="Move to next column" title="Move forward" >
             <RightIcon width={16} height={16} />
           </button>
         </div>
         <div className="move-group">
-          <button
-            type="button"
-            className="icon-btn sm"
-            onClick={() => onEdit(task)}
-            aria-label={`Edit ${task.title}`}
-            title="Edit"
-          >
+          <button type="button" className="icon-btn sm" onClick={() => onEdit(task)} aria-label={`Edit ${task.title}`} title="Edit">
             <EditIcon width={16} height={16} />
           </button>
-          <button
-            type="button"
-            className="icon-btn sm danger"
-            onClick={() => onDelete(task)}
-            aria-label={`Delete ${task.title}`}
-            title="Delete"
-          >
+          <button type="button" className="icon-btn sm danger" onClick={() => onDelete(task)} aria-label={`Delete ${task.title}`} title="Delete" >
             <TrashIcon width={16} height={16} />
           </button>
         </div>

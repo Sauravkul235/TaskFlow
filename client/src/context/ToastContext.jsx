@@ -20,7 +20,6 @@ export function ToastProvider({ children }) {
     [dismiss]
   );
 
-  // Stable object so consumers can safely list it as an effect/callback dependency.
   const api = useMemo(
     () => ({
       success: (m) => push("success", m),
@@ -39,12 +38,7 @@ export function ToastProvider({ children }) {
               {t.type === "success" ? <CheckIcon width={16} height={16} /> : "!"}
             </span>
             <span className="toast-msg">{t.message}</span>
-            <button
-              type="button"
-              className="toast-close"
-              onClick={() => dismiss(t.id)}
-              aria-label="Dismiss notification"
-            >
+            <button type="button" className="toast-close" onClick={() => dismiss(t.id)} aria-label="Dismiss notification">
               <CloseIcon width={14} height={14} />
             </button>
           </div>

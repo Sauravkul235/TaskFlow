@@ -3,7 +3,6 @@ import { asyncHandler } from "../middleware/error.js";
 
 const escapeRegex = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-// Admins may act on any task; regular users only on their own.
 const scopeFilter = (req) => (req.user.role === "admin" ? {} : { owner: req.user._id });
 
 const pick = (body) => {

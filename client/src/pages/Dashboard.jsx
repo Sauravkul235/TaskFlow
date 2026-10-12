@@ -25,7 +25,7 @@ export default function Dashboard() {
   const [filters, setFilters] = useState({ q: "", priority: "" });
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
-  const [modal, setModal] = useState(null); // { task: null | task }
+  const [modal, setModal] = useState(null); 
   const [toDelete, setToDelete] = useState(null);
   const [deleting, setDeleting] = useState(false);
   const [dragOver, setDragOver] = useState(null);
@@ -47,7 +47,6 @@ export default function Dashboard() {
     }
   }, [filters, logout]);
 
-  // Debounce so typing in the search box doesn't fire a request per keystroke.
   useEffect(() => {
     const t = setTimeout(load, 250);
     return () => clearTimeout(t);
@@ -57,7 +56,7 @@ export default function Dashboard() {
     api
       .stats()
       .then(setStats)
-      .catch(() => {});
+      .catch(() => { });
 
   const grouped = useMemo(() => {
     const g = { todo: [], "in-progress": [], done: [] };
@@ -81,7 +80,6 @@ export default function Dashboard() {
     }
   };
 
-  // Optimistic update: move the card immediately, roll back if the API call fails.
   const moveTask = async (task, status) => {
     if (!status || task.status === status) return;
     const previous = tasks;
@@ -166,13 +164,7 @@ export default function Dashboard() {
         <section className="toolbar">
           <label className="search">
             <SearchIcon width={16} height={16} />
-            <input
-              name="q"
-              value={filters.q}
-              onChange={setFilter}
-              placeholder="Search tasks…"
-              aria-label="Search tasks"
-            />
+            <input name="q" value={filters.q} onChange={setFilter} placeholder="Search tasks…" aria-label="Search tasks" />
           </label>
           <select name="priority" value={filters.priority} onChange={setFilter} aria-label="Filter by priority">
             <option value="">All priorities</option>
@@ -196,18 +188,13 @@ export default function Dashboard() {
 
         <section className="board">
           {COLUMNS.map((col) => (
-            <div
-              key={col.key}
-              className={`column ${dragOver === col.key ? "drag-over" : ""}`}
-              onDragOver={(e) => {
+            <div key={col.key} className={`column ${dragOver === col.key ? "drag-over" : ""}`} onDragOver={(e) => {
                 e.preventDefault();
                 setDragOver(col.key);
-              }}
-              onDragLeave={(e) => {
+              }} onDragLeave={(e) => {
                 if (!e.currentTarget.contains(e.relatedTarget)) setDragOver(null);
-              }}
-              onDrop={(e) => onDrop(e, col.key)}
-            >
+              }} onDrop={(e) => onDrop(e, col.key)}>
+
               <header className="column-head">
                 <h2><i className={`dot ${col.key}`} />{col.label}</h2>
                 <span className="count">{loading ? "–" : grouped[col.key].length}</span>
@@ -228,16 +215,8 @@ export default function Dashboard() {
                       </button>
                     )}
                   </div>
-                ) : (
-                  grouped[col.key].map((t) => (
-                    <TaskCard
-                      key={t._id}
-                      task={t}
-                      showOwner={user.role === "admin"}
-                      onMove={moveTask}
-                      onEdit={(task) => setModal({ task })}
-                      onDelete={setToDelete}
-                    />
+                ) : ( grouped[col.key].map((t) => (
+                    <TaskCard key={t._id} task={t} showOwner={user.role === "admin"} onMove={moveTask} onEdit={(task) => setModal({ task })} onDelete={setToDelete} />
                   ))
                 )}
               </div>
@@ -245,17 +224,10 @@ export default function Dashboard() {
           ))}
         </section>
       </main>
-
       {modal && <TaskModal task={modal.task} onSubmit={saveTask} onClose={() => setModal(null)} />}
 
       {toDelete && (
-        <ConfirmModal
-          title="Delete this task?"
-          message={`"${toDelete.title}" will be permanently removed.`}
-          busy={deleting}
-          onConfirm={confirmDelete}
-          onCancel={() => setToDelete(null)}
-        />
+        <ConfirmModal title="Delete this task?" message={`"${toDelete.title}" will be permanently removed.`} busy={deleting} onConfirm={confirmDelete} onCancel={() => setToDelete(null)}/>
       )}
     </div>
   );

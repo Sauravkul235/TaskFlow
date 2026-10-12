@@ -16,13 +16,7 @@ export default function ConfirmModal({
 
   return (
     <div className="overlay" onMouseDown={onCancel}>
-      <div
-        className="modal modal-sm"
-        role="alertdialog"
-        aria-modal="true"
-        aria-labelledby="confirm-title"
-        onMouseDown={(e) => e.stopPropagation()}
-      >
+      <div className="modal modal-sm" role="alertdialog" aria-modal="true" aria-labelledby="confirm-title" onMouseDown={(e) => e.stopPropagation()}>
         <h2 id="confirm-title">{title}</h2>
         <p className="muted">{message}</p>
         <div className="modal-actions">
